@@ -5,7 +5,7 @@
 #include <errno.h>
 #include <assert.h>
 #include <sys/time.h>
-#include "rbtree.h"
+#include "../src/rbtree.h"
 
 #define DBG(fmt, ...) fprintf(stderr, fmt "\n", ##__VA_ARGS__)
 
