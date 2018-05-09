@@ -1,0 +1,6 @@
+Red-black tree implementation based on Julienne Walker's solution
+
+TODO
+* refactor file names(prefix jw_)
+* using src, test directory
+
