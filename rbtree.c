@@ -11,7 +11,7 @@
 static inline ptrdiff_t _rb_raw_data_cmp(void *a, void *b)   { return a - b; }
 static inline void _rb_raw_data_free(void *a __UNUSED) { /* NOP */ }
 
-/*
+/**
  * Allocate a rbtree
  * @cmp_f   The compare function pointer(NULL for raw comparison)
  * @free_f  The free function for data(NULL for no operation)
@@ -30,10 +30,10 @@ struct rb_root *rb_alloc(cmp_func_t cmp_f, free_func_t free_f)
     return r;
 }
 
-/*
+/**
  * Core utility for rbtree destruction
- * @param t         rbtree reference
- * @param fully     if free the rbtree fully(e.g.  if free the root)
+ * @t           rbtree reference
+ * @fully       if free the rbtree fully(e.g.  if free the root)
  *
  * NOTE: behaviour of free a NULL rbtree is undefined
  */
@@ -41,7 +41,9 @@ static void rb_free_core(struct rb_root **t, int fully)
 {
     struct rb_root *tree;
     struct rb_node *iter, *save;
-    size_t size0, size1;        /* This should be eliminated eventually */
+    /* Those two will be eliminated eventually */
+    size_t size0, size1;
+
     __ASSERT(t != NULL && *t != NULL);
 
     tree = *t;
@@ -175,11 +177,13 @@ static struct rb_node *rot_twice(struct rb_node *root, int dir)
     return rot_once(root, dir);
 }
 
-/*
+/**
  * Insert a item into rb tree
  * @return      0 if success  errno o.w.
  *              ENOMEM if oom
  *              EEXIST if already exists(duplicates disallow)
+ *
+ * XXX  Undefined behaviour if insert rb_not_found
  */
 int rb_insert(struct rb_root *tree, void *data)
 {
@@ -258,7 +262,7 @@ out_exit:
     return ins == 1 ? 0 : EEXIST;
 }
 
-/*
+/**
  * Delete a item from rbtree
  * @return          0 if success  errno o.w.
  *                  ENOENT if no such item
@@ -373,7 +377,7 @@ static uint32_t rb_assert_recur(const struct rb_root *t, struct rb_node *root)
     return IS_RED(root) ? lh : lh + 1;
 }
 
-/*
+/**
  * Assert the rbtree(mainly for debug)
  */
 void rb_assert(const struct rb_root *t)
@@ -399,6 +403,9 @@ out_again:
     goto out_again;
 }
 
+/**
+ * Simple tree display(debugging)
+ */
 void rb_show(const struct rb_root *t)
 {
     __ASSERT(t != NULL);

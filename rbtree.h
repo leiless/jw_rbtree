@@ -43,6 +43,8 @@ struct rb_root {
     free_func_t free;
 };
 
+extern void *rb_not_found;
+
 struct rb_root *rb_alloc(cmp_func_t, free_func_t);
 void rb_free(struct rb_root **);
 void rb_clear(struct rb_root **);
